@@ -13,7 +13,7 @@ fun main() {
     println("Hello World!")
 
     var b : Byte
-    var s : ShortW
+    var s : Short
     var n: Int = 1
     var l : Long
 
