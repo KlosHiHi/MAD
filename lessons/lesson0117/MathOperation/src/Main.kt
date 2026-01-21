@@ -73,4 +73,29 @@ fun main() {
     for (i1 in numbers.indices) {
         println(i1)
     }
+
+    val intArray = intArrayOf(1, 2, 3)
+    val doubleArray = doubleArrayOf(1.0, 2.0, 3.0)
+
+    if (3 in intArray) {
+
+    }
+
+    numbers.shuffle() //развернуть
+    numbers.reverse() //перемещать
+    numbers.random() //случайные элемент
+    numbers.sort() //сортировка
+
+    var table: Array<Array<Int>> =
+        Array(5, { Array(3, { 0 }) })
+
+    table[0][0] = 1
+
+    for (row in table) {
+        for (cell in row)
+            print("$cell\t")
+        println()
+    }
+
+
 }
