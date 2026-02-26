@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2b70eb6d-31af-44d5-8ef1-7623d91446e2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.gradle/config.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../labs/lab6/labwork6/labwork6.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../labs/lab6/labwork6/src/Task2.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../labs/lab6/labwork6/src/Task3.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../labs/lab6/labwork6/src/Task4.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../labs/lab7/labwork7/labwork7.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../labs/lab7/labwork7/src/Book.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../labs/lab7/labwork7/src/Task2.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lesson0121/src/AdditionalInfo.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lesson0121/src/Collection.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lesson0121/src/Coroutines.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../labs/lab4/labwork4/src/Task5.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../labs/lab4/labwork4/src/Task5.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson0121/src/ScopeFunctions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lesson0121/src/ScopeFunctions.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="39QY7JhnpPgFSyGoPEkimeoXKtM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "android.gradle.sync.needed": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2b70eb6d-31af-44d5-8ef1-7623d91446e2" name="Changes" comment="" />
+      <created>1770629593256</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1770629593256</updated>
+    </task>
+    <servers />
+  </component>
+</project>

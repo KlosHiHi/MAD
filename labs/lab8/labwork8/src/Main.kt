@@ -1,0 +1,16 @@
+val gena = Student("Геннадий", 22, "ИСПП-31")
+val krug = Circle(6.7)
+val randomData = RandomDataSource()
+val service = FoodService("Самокат")
+val app =DeliveryApp(service)
+fun main(){
+    gena.fullInfo()
+    println()
+    println(gena.toString())
+    println()
+    krug.answer()
+    println()
+    printElements(randomData)
+    println()
+    app.createOrder(1487)
+}

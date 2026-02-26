@@ -7,10 +7,10 @@ fun main() {
 
 fun checkPrice(price:Double) {
     if (price in 1000.0..5000.0){
-        price = price - (price / 20)
+        price = price - (price / 20.0)
     }
     else if (price > 5000.0) {
-        price - (price / 10)
+        price - (price / 10.0)
     } else {
         price
     }
