@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Лучшее приложение</string>
+    <string name="search_string">Поиск</string>
+    <string name="menu_string">Меню</string>
+    <string name="policy_string">© %1$s. Все права защищены. %2$d</string>
+</resources>

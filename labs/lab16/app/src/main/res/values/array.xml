@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="developers">
+        <item>Хэм Роберт</item>
+        <item>Сакер Боб</item>
+        <item>Мак Гроуви</item>
+    </string-array></resources>

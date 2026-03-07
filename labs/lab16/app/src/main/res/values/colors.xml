@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="the_bell_of_the_devil">#FFa2a2d0</color>
+    <color name="light_purple_blue">#FFbaacc7</color>
+    <color name="light_gray_blue">#FFb0b7c6</color>
+    <color name="cadet_blue">#FF9db1cc</color>
+    <color name="light_blue">#FFa6bdd7</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

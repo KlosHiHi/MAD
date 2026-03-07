@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="search_field_width">200.dp</dimen>
+    <dimen name="menu_button_height">20.dp</dimen>
+    <dimen name="menu_button_width">50.dp</dimen>
+    <dimen name="image_width">70.dp</dimen>
+    <dimen name="image_height">70.dp</dimen>
+</resources>
