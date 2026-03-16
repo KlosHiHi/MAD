@@ -5,7 +5,9 @@ import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -13,8 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonColors
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,13 +30,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.labwork17.ui.theme.Labwork17Theme
+import kotlin.math.round
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +47,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Labwork17Theme {
-                TextFieldAboutUser()
+                RegistrationPage()
             }
         }
     }
@@ -47,68 +56,100 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun RegistrationPage() {
-    var login by remember{ mutableStateOf("") }
-    var password by remember{ mutableStateOf("") }
-    var passwordConfirmation by remember{ mutableStateOf("") }
-    var phone by remember{ mutableStateOf("") }
-    var email by remember{ mutableStateOf("") }
-    var age by remember{ mutableStateOf("") }
-    var personalSite by remember{ mutableStateOf("") }
+    var login by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordConfirmation by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var age by remember { mutableStateOf("") }
+    var personalSite by remember { mutableStateOf("") }
 
-    val text = remember{mutableStateOf("")}
+    var isChecked by remember {mutableStateOf(false)}
 
-    Column(Modifier.fillMaxSize().fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        OutlinedTextField(value = login,
-            onValueChange = {login = it},
-            label = {Text("Логин")},
-            placeholder = {Text("Введите логин")},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
+    val text = remember { mutableStateOf("") }
 
-        OutlinedTextField(value = password,
-            onValueChange = {password = it},
-            label = {Text("Пароль")},
-            placeholder = {Text("Введите пароль")},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
+    Column(
+        Modifier.fillMaxSize().fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        OutlinedTextField(
+            value = login,
+            onValueChange = { login = it },
+            label = { Text("Логин") },
+            placeholder = { Text("Введите логин") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+        )
 
-        OutlinedTextField(value = passwordConfirmation,
-            onValueChange = {passwordConfirmation = it},
-            label = {Text("Подтвердите пароль")},
-            placeholder = {Text("Введите пароль")},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Пароль") },
+            placeholder = { Text("Введите пароль") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        )
 
-        OutlinedTextField(value = phone,
-            onValueChange = {phone = it},
-            label = {Text("Телефон")},
-            placeholder = {Text("Введите телефон")},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone))
+        OutlinedTextField(
+            value = passwordConfirmation,
+            onValueChange = { passwordConfirmation = it },
+            label = { Text("Подтвердите пароль") },
+            placeholder = { Text("Введите пароль") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        )
 
-        OutlinedTextField(value = email,
-            onValueChange = {email = it},
-            label = {Text("Почта")},
-            placeholder = {Text("Введите почту")},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email))
+        OutlinedTextField(
+            value = phone,
+            onValueChange = { phone = it },
+            label = { Text("Телефон") },
+            placeholder = { Text("Введите телефон") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+        )
 
-        OutlinedTextField(value = age,
-            onValueChange = {age = it},
-            label = {Text("Возраст")},
-            placeholder = {Text("Введите возраст")},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Почта") },
+            placeholder = { Text("Введите почту") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+        )
 
-        OutlinedTextField(value = personalSite,
-            onValueChange = {personalSite = it},
-            label = {Text("Персональный сайт")},
-            placeholder = {Text("Введите адрес сайта")},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri))
+        OutlinedTextField(
+            value = age,
+            onValueChange = { age = it },
+            label = { Text("Возраст") },
+            placeholder = { Text("Введите возраст") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
 
-
-        Button(onClick = { text.value = "$login, вы зарегистрированы" })
+        OutlinedTextField(
+            value = personalSite,
+            onValueChange = { personalSite = it },
+            label = { Text("Персональный сайт") },
+            placeholder = { Text("Введите адрес сайта") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri)
+        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(isChecked, onCheckedChange = { isChecked = !isChecked })
+            Text(
+                "Я согласен на обработку своих персональных данных и принимаю условия Политики конфиденциальности и Пользовательского соглашения",
+                fontSize = 10.sp)
+        }
+        Button(onClick = {
+            text.value =
+                if (login.isBlank()
+                    || password.isBlank()
+                    || passwordConfirmation.isBlank()
+                    || phone.isBlank()
+                    || email.isBlank()
+                    || age.isBlank()
+                    || personalSite.isBlank()
+                ) "Не все поля заполнены" else "$login, вы зарегистрированы"
+        }, enabled = isChecked)
         { Text("Зарегитрироваться") }
 
         Text(text.value)
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun PinPage(){
     var pin by remember{mutableStateOf("")}
@@ -148,7 +189,6 @@ fun PinPage(){
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun TextFieldAboutUser(){
     var text by remember { mutableStateOf("") }
@@ -167,5 +207,82 @@ fun TextFieldAboutUser(){
         )
 
         Text("осталось символов: $availableChar", modifier = Modifier.offset(y = 50.dp))
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun TextColorPage() {
+    var color by remember { mutableStateOf(Color.Black) }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.align(Alignment.TopCenter)) {
+            Text(
+                text = "Пример текста",
+                fontSize = 30.sp,
+                color = color
+            );
+
+            Column() {
+                Row() {
+                    RadioButton(
+                        selected = color == Color.Black,
+                        onClick = {},
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = Color.Black,
+                            unselectedColor = Color.LightGray
+                        )
+                    )
+                    Text("Чёрный")
+                }
+                Row() {
+                    RadioButton(
+                        selected = color == Color.Red,
+                        onClick = {},
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = Color.Red,
+                            unselectedColor = Color.LightGray
+                        )
+                    )
+                    Text("Красный")
+                }
+                Row() {
+                    RadioButton(
+                        selected = color == Color.Green,
+                        onClick = {},
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = Color.Green,
+                            unselectedColor = Color.LightGray
+                        )
+                    )
+                    Text("Зелёный")
+                }
+                Row() {
+                    RadioButton(
+                        selected = color == Color.Blue,
+                        onClick = {},
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = Color.Blue,
+                            unselectedColor = Color.LightGray
+                        )
+                    )
+
+                    Text("Синий")
+                }
+                Row() {
+                    RadioButton(
+                        selected = color == Color.Magenta,
+                        onClick = {},
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = Color.Magenta,
+                            unselectedColor = Color.LightGray
+                        )
+                    )
+
+                    Text("Фиолетовый")
+                }
+            }
+        }
     }
 }
