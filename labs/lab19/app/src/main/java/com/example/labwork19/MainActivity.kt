@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                     Product("00019", "Томаты", 270.84f, R.drawable.tomato),
                     Product("00020", "Вода", 49.49f, R.drawable.water),
                     )
-                
+
                 Scaffold() { innerPadding ->
 //                    TaskTwo(modifier = Modifier.padding(innerPadding), products)
 //                    TaskThree(modifier = Modifier.padding(innerPadding), products)
