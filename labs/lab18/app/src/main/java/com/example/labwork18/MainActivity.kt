@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                 }) { innerPadding ->
 //                    Buttons(Modifier.padding(innerPadding))
 //                    ProductsOne(Modifier.padding(innerPadding))
-//                    Product()
+////                    Product()
 //                    Contacts(Modifier.padding(innerPadding))
                     Tasks(Modifier.padding(innerPadding))
                 }
