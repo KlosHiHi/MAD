@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 class GameViewModel: ViewModel() {
-    var score by mutableStateOf(0f)
-    var perClick by mutableStateOf(1.2f)
+    var score by mutableStateOf(0)
+    var perClick by mutableStateOf(1)
 
     fun OnTap(){
         score += perClick
