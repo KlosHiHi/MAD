@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.BoolRes
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -24,9 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -34,11 +31,14 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -50,23 +50,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.clicker42.ui.theme.Clicker42Theme
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +93,14 @@ fun ClickerGame(vm: GameViewModel = viewModel()) {
             3 to PageData("Settings", Icons.Default.Settings),
         )
     }
+
+    LaunchedEffect(Unit) {
+        while (true){
+            delay(1000)
+            vm.onAutoClick()
+        }
+    }
+
     Clicker42Theme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -110,7 +120,7 @@ fun ClickerGame(vm: GameViewModel = viewModel()) {
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                     Text(
-                        vm.score.toString(),
+                        "%.2f".format(vm.score),
                         textAlign = TextAlign.Center,
                         fontSize = 30.sp,
                         color = MaterialTheme.colorScheme.onPrimary
@@ -165,13 +175,24 @@ fun ClickerGame(vm: GameViewModel = viewModel()) {
 }
 
 @Composable
-fun ShopScreen(vm: GameViewModel){
+fun ShopScreen(vm: GameViewModel) {
     Column(Modifier.fillMaxSize()) {
-        Button({}, Modifier.size(100.dp)) { Text("Купить") }
-        Button({}, Modifier.size(100.dp)) { Text("Купить") }
-        Button({}, Modifier.size(100.dp)) { Text("Купить") }
-        Button({}, Modifier.size(100.dp)) { Text("Купить") }
-        Button({}, Modifier.size(100.dp)) { Text("Купить") }
+        vm.upgrades.forEach { (type, upgrade) ->
+            Card(Modifier.fillMaxWidth().padding(10.dp).clickable{vm.onUpgrade(upgrade)}) {
+                Text(
+                    type.title, fontSize = 25.sp,
+                    modifier = Modifier.padding(5.dp)
+                )
+                Text(
+                    "${upgrade.level} ур. Значение: %.2f".format(upgrade.currentValue()),
+                    modifier = Modifier.padding(5.dp)
+                )
+                Text(
+                    "Стоимость: %.2f".format(upgrade.currentCost()),
+                    modifier = Modifier.padding(5.dp)
+                )
+            }
+        }
     }
 }
 
@@ -187,6 +208,7 @@ fun GameScreen(vm: GameViewModel) {
             animationSpec = tween(100)
         )
 
+
         Box(
             Modifier.size(300.dp)
                 .clip(CircleShape)
@@ -201,7 +223,7 @@ fun GameScreen(vm: GameViewModel) {
                                 val down = awaitFirstDown()
                                 val position = down.position + buttonPosition
                                 isPressed = true
-                                vm.OnTap()
+                                vm.onTap()
                                 repeat(5) {
                                     particles.add(
                                         Particle(position.x, position.y)
@@ -230,5 +252,26 @@ fun GameScreen(vm: GameViewModel) {
             )
         }
         ParticleAnimation(particles)
+    }
+}
+
+@Composable
+fun ApplicationLifetimeObserver(onExit:()->Unit) {
+    val lifecicleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecicleOwner) {
+        val observer = object : DefaultLifecycleObserver{
+            override fun onStop(owner: LifecycleOwner) {
+                super.onStop(owner)
+            }
+
+            override fun onDestroy(owner: LifecycleOwner) {
+                super.onDestroy(owner)
+            }
+
+            override fun onPause(owner: LifecycleOwner) {
+                super.onPause(owner)
+            }
+        }
     }
 }
