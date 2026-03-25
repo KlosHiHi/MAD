@@ -2,9 +2,11 @@ package com.example.labwork17
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.RadioButton
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -22,6 +25,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonColors
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,9 +34,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.CloseSegment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,13 +53,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Labwork17Theme {
-                RegistrationPage()
+                Scaffold() { inn ->
+                    Column(Modifier.padding(inn)) {
+//                        RegistrationPage()
+//                        PinPage()
+                        TextColorPage()
+                    }
+                }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun RegistrationPage() {
     var login by remember { mutableStateOf("") }
@@ -210,77 +221,39 @@ fun TextFieldAboutUser(){
     }
 }
 
-
-@Preview(showBackground = true)
 @Composable
 fun TextColorPage() {
-    var color by remember { mutableStateOf(Color.Black) }
+    var colors = listOf(Color.Black, Color.Red, Color.Green, Color.Blue, Color.Magenta)
+    var selectedColor by remember { mutableStateOf(colors[0]) }
+    var fontSize by remember { mutableStateOf(16.sp) }
+
+    val colorName = mapOf(
+        Color.Black to "Чёрный",
+        Color.Red to "Красный",
+        Color.Green to "Залёный",
+        Color.Blue to "Синий",
+        Color.Magenta to "Фиолетовый",
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(Alignment.TopCenter)) {
             Text(
                 text = "Пример текста",
-                fontSize = 30.sp,
-                color = color
+                color = selectedColor,
+                fontSize = fontSize
             );
 
-            Column() {
-                Row() {
-                    RadioButton(
-                        selected = color == Color.Black,
-                        onClick = {},
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = Color.Black,
-                            unselectedColor = Color.LightGray
-                        )
+            colors.forEach { color ->
+                Row(
+                    Modifier.selectable(
+                        selected = (color == selectedColor),
+                        onClick = { selectedColor = color },
+                        role = Role.RadioButton
                     )
-                    Text("Чёрный")
-                }
-                Row() {
-                    RadioButton(
-                        selected = color == Color.Red,
-                        onClick = {},
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = Color.Red,
-                            unselectedColor = Color.LightGray
-                        )
-                    )
-                    Text("Красный")
-                }
-                Row() {
-                    RadioButton(
-                        selected = color == Color.Green,
-                        onClick = {},
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = Color.Green,
-                            unselectedColor = Color.LightGray
-                        )
-                    )
-                    Text("Зелёный")
-                }
-                Row() {
-                    RadioButton(
-                        selected = color == Color.Blue,
-                        onClick = {},
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = Color.Blue,
-                            unselectedColor = Color.LightGray
-                        )
-                    )
-
-                    Text("Синий")
-                }
-                Row() {
-                    RadioButton(
-                        selected = color == Color.Magenta,
-                        onClick = {},
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = Color.Magenta,
-                            unselectedColor = Color.LightGray
-                        )
-                    )
-
-                    Text("Фиолетовый")
+                ) {
+                    RadioButton(selected = (color == selectedColor),
+                        onClick = null)
+                    Text(colorName[color] ?: "")
                 }
             }
         }
