@@ -1,0 +1,23 @@
+package com.example.lab23.screens
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.example.lab23.Routes
+
+@Composable
+fun Transit(modifier: Modifier = Modifier, account:() -> Unit) {
+    val navController = rememberNavController()
+    Column(modifier) {
+        Button(onClick = {
+            navController.navigate(Routes.Transit.route) {
+                popUpTo(Routes.Account.route)
+            }
+        }) {
+            Text(text = "To Account Page")
+        }
+    }
+}

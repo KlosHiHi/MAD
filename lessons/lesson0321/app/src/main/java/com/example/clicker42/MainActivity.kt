@@ -64,6 +64,8 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.clicker42.screens.GameScreen
+import com.example.clicker42.screens.ShopScreen
 import com.example.clicker42.ui.theme.Clicker42Theme
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -175,103 +177,33 @@ fun ClickerGame(vm: GameViewModel = viewModel()) {
 }
 
 @Composable
-fun ShopScreen(vm: GameViewModel) {
-    Column(Modifier.fillMaxSize()) {
-        vm.upgrades.forEach { (type, upgrade) ->
-            Card(Modifier.fillMaxWidth().padding(10.dp).clickable{vm.onUpgrade(upgrade)}) {
-                Text(
-                    type.title, fontSize = 25.sp,
-                    modifier = Modifier.padding(5.dp)
-                )
-                Text(
-                    "${upgrade.level} ур. Значение: %.2f".format(upgrade.currentValue()),
-                    modifier = Modifier.padding(5.dp)
-                )
-                Text(
-                    "Стоимость: %.2f".format(upgrade.currentCost()),
-                    modifier = Modifier.padding(5.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun GameScreen(vm: GameViewModel) {
-    Box(Modifier.fillMaxSize()) {
-        val particles = remember { mutableStateListOf<Particle>() }
-        var buttonPosition by remember { mutableStateOf(Offset.Zero) }
-
-        var isPressed by remember { mutableStateOf(false) }
-        val scale by animateFloatAsState(
-            if (isPressed) 0.95f else 1f,
-            animationSpec = tween(100)
-        )
-
-
-        Box(
-            Modifier.size(300.dp)
-                .clip(CircleShape)
-                .align(Alignment.Center)
-                .onGloballyPositioned{
-                    buttonPosition = it.positionInParent()
-                }
-                .pointerInput(Unit) {
-                    coroutineScope {
-                        while (true) {
-                            awaitPointerEventScope {
-                                val down = awaitFirstDown()
-                                val position = down.position + buttonPosition
-                                isPressed = true
-                                vm.onTap()
-                                repeat(5) {
-                                    particles.add(
-                                        Particle(position.x, position.y)
-                                    )
-                                }
-                                down.consume()
-                                val up = waitForUpOrCancellation()
-                                if (up != null)
-                                    isPressed = false
-                            }
-                        }
-                    }
-                }
-        ) {
-            Image(
-                painterResource(R.drawable.cthulhu_star),
-                "Background", modifier = Modifier.fillMaxSize()
-            )
-            Image(
-                painterResource(R.drawable.cthulhu),
-                "Cthulhu",
-                modifier = Modifier
-                    .graphicsLayer(scaleX = scale, scaleY = scale)
-                    .fillMaxSize(0.8f)
-                    .align(Alignment.Center)
-            )
-        }
-        ParticleAnimation(particles)
-    }
-}
-
-@Composable
 fun ApplicationLifetimeObserver(onExit:()->Unit) {
     val lifecicleOwner = LocalLifecycleOwner.current
 
     DisposableEffect(lifecicleOwner) {
-        val observer = object : DefaultLifecycleObserver{
+        val observer = object : DefaultLifecycleObserver {
             override fun onStop(owner: LifecycleOwner) {
+                onExit()
                 super.onStop(owner)
             }
 
             override fun onDestroy(owner: LifecycleOwner) {
+                onExit()
                 super.onDestroy(owner)
             }
 
             override fun onPause(owner: LifecycleOwner) {
+                onExit()
                 super.onPause(owner)
             }
         }
+
+        lifecicleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecicleOwner.lifecycle.removeObserver(observer)
+        }
+
+
     }
 }
