@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.jetpackcompose.screens.Auth
 import com.example.jetpackcompose.ui.theme.JetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -37,10 +38,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        group = "ИСПП-31",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Auth(Modifier.padding(innerPadding))
                 }
             }
         }
