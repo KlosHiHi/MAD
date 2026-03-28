@@ -26,13 +26,16 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -67,9 +70,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.clicker42.screens.GameScreen
 import com.example.clicker42.screens.ShopScreen
 import com.example.clicker42.ui.theme.Clicker42Theme
+import com.example.clicker42.ui.theme.formatNumber
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
@@ -97,10 +102,32 @@ fun ClickerGame(vm: GameViewModel = viewModel()) {
     }
 
     LaunchedEffect(Unit) {
-        while (true){
+        while (true) {
             delay(1000)
             vm.onAutoClick()
         }
+    }
+
+    var showDialog by remember { mutableStateOf(false) }
+    var offlineIncome by remember { mutableStateOf(BigDecimal(0)) }
+
+    LaunchedEffect(Unit) {
+        offlineIncome = vm.calculateOfflineIncome().await()
+        showDialog = offlineIncome > BigDecimal(0)
+    }
+
+    if(showDialog) {
+        vm.score += offlineIncome
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Зачем вы вернулись") },
+            text = { Text("Без вас мы жали на урода ${offlineIncome}") },
+            confirmButton = {
+                IconButton({
+                    showDialog = false
+                }) { Icons.Default.Check }
+            }
+        )
     }
 
     Clicker42Theme {
@@ -122,7 +149,7 @@ fun ClickerGame(vm: GameViewModel = viewModel()) {
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                     Text(
-                        "%.2f".format(vm.score),
+                        vm.score.formatNumber(2),
                         textAlign = TextAlign.Center,
                         fontSize = 30.sp,
                         color = MaterialTheme.colorScheme.onPrimary
@@ -140,8 +167,14 @@ fun ClickerGame(vm: GameViewModel = viewModel()) {
                 ) {
                     pages.forEach { (n, page) ->
                         Button(
-                            { scrollScope.launch { pagerState.animateScrollToPage(n,
-                                animationSpec = tween(400)) } },
+                            {
+                                scrollScope.launch {
+                                    pagerState.animateScrollToPage(
+                                        n,
+                                        animationSpec = tween(400)
+                                    )
+                                }
+                            },
                             Modifier.weight(1f)
                                 .fillMaxHeight(),
                             shape = RectangleShape,
@@ -174,6 +207,7 @@ fun ClickerGame(vm: GameViewModel = viewModel()) {
             }
         }
     }
+    ApplicationLifetimeObserver { vm.saveData() }
 }
 
 @Composable
@@ -203,7 +237,5 @@ fun ApplicationLifetimeObserver(onExit:()->Unit) {
         onDispose {
             lifecicleOwner.lifecycle.removeObserver(observer)
         }
-
-
     }
 }

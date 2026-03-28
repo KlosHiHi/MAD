@@ -6,31 +6,17 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class GameViewModel(app: Application): AndroidViewModel(app) {
     var score by mutableStateOf(BigDecimal(0.0))
-    init {
-        viewModelScope.launch {
-             score = storage.getScore()
-        }
-        viewModelScope.launch {
-            upgrades[UpgradeType.AutoClick] =
-                upgrades[UpgradeType.AutoClick]!!.copy(level = storage.getAutoClick())
-
-            upgrades[UpgradeType.ClickMultiplier] =
-                upgrades[UpgradeType.ClickMultiplier]!!.copy(level = storage.getMultiplier())
-
-            upgrades[UpgradeType.OfflineIncome] =
-                upgrades[UpgradeType.OfflineIncome]!!.copy(level = storage.getOfflineIncome())
-        }
-    }
-
     var storage = GameStorage(app)
+
+
     val upgrades = mutableStateMapOf(
         UpgradeType.AutoClick to Upgrade(
             UpgradeType.AutoClick,
@@ -58,6 +44,22 @@ class GameViewModel(app: Application): AndroidViewModel(app) {
         )
     )
 
+    init {
+        viewModelScope.launch {
+            score = storage.getScore()
+        }
+        viewModelScope.launch {
+            upgrades[UpgradeType.AutoClick] =
+                upgrades[UpgradeType.AutoClick]!!.copy(level = storage.getAutoclick())
+
+            upgrades[UpgradeType.ClickMultiplier] =
+                upgrades[UpgradeType.ClickMultiplier]!!.copy(level = storage.getMultiplier())
+
+            upgrades[UpgradeType.OfflineIncome] =
+                upgrades[UpgradeType.OfflineIncome]!!.copy(level = storage.getOfflineIncome())
+        }
+    }
+
     fun onTap() {
         score += upgrades[UpgradeType.ClickMultiplier]?.currentValue() ?: BigDecimal(1.0)
     }
@@ -73,10 +75,25 @@ class GameViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
+    suspend fun calculateOfflineIncome(): Deferred<BigDecimal> {
+        return viewModelScope.async {
+            val cap = upgrades[UpgradeType.OfflineIncome]!!.currentValue()
+            if (cap > BigDecimal(0)) {
+                val currentTime = System.currentTimeMillis()
+                val exitTime = storage.getExitTime()
+
+                val delta = (currentTime - exitTime) / 1000
+                val income = BigDecimal(delta) * upgrades[UpgradeType.AutoClick]!!.currentValue()
+                if (income > cap) cap else income
+            } else BigDecimal(0)
+        }
+    }
+
     fun saveData() {
         viewModelScope.launch {
             storage.saveScore(score)
             storage.saveUpgrades(upgrades)
+            storage.saveExitTime()
         }
     }
 }

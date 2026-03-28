@@ -13,25 +13,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.clicker42.ApplicationLifetimeObserver
 import com.example.clicker42.GameViewModel
+import com.example.clicker42.ui.theme.formatNumber
 import kotlin.collections.component1
 import kotlin.collections.component2
-
 
 @Composable
 fun ShopScreen(vm: GameViewModel) {
     Column(Modifier.fillMaxSize()) {
         vm.upgrades.forEach { (type, upgrade) ->
-            Card(Modifier.fillMaxWidth().padding(10.dp).clickable{vm.onUpgrade(upgrade)}) {
+            Card(Modifier.fillMaxWidth().padding(10.dp).clickable { vm.onUpgrade(upgrade) }) {
                 Text(
                     type.title, fontSize = 25.sp,
                     modifier = Modifier.padding(5.dp)
                 )
                 Text(
-                    "${upgrade.level} ур. Значение: %.2f".format(upgrade.currentValue()),
+                    "${upgrade.level} ур. ${upgrade.currentValue().formatNumber(2)}",
                     modifier = Modifier.padding(5.dp)
                 )
                 Text(
-                    "Стоимость: %.2f".format(upgrade.currentCost()),
+                    "Стоимость: ${upgrade.currentCost().formatNumber(2)}",
                     modifier = Modifier.padding(5.dp)
                 )
             }

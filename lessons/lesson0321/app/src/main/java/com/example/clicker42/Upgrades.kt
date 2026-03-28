@@ -18,13 +18,8 @@ data class Upgrade(
     val baseCost: BigDecimal,
     val costMultiplier: BigDecimal,
 ) {
-    fun currentCost(): BigDecimal
-        = baseCost * costMultiplier.pow(level)
+    fun currentCost(): BigDecimal = baseCost * costMultiplier.pow(level)
+    fun currentValue(): BigDecimal = initialValue + baseValue * valueMultiplier.pow(level)
 
-    fun currentValue(): BigDecimal
-        = initialValue + baseValue * valueMultiplier.pow(level)
-
-    fun next(): Upgrade
-        = copy(level = level + 1)
-
+    fun next(): Upgrade = copy(level = level + 1)
 }
