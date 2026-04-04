@@ -16,7 +16,7 @@ interface PlayerDao {
     fun addPlayer(player: Player)
 
     @Delete
-    fun delete(player: Player)
+    fun deletePlayer(player: Player)
 
     @Query("DELETE FROM players WHERE playerId = :id")
     fun deletePlayerById(id: Int)
