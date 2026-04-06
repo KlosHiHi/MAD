@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
  * Создание блока текста с приветсвием
  * @param name Имя для приветсвия
  * @param modifier Свойства для стилизации текстового поля
- * @author Гидрид Калия
+ * @author Motya
  * @since 0.1
  * @sample com.example.lab14.Sample.GreetingSample
  */
@@ -49,7 +49,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
 /**
  * Отображение приветствия на главной странице приложения
- * @author Гидрид Калия
+ * @author Motya
  * @since 0.1
  * @sample com.example.lab14.Sample.GreetingPreviewSample
  */
@@ -67,7 +67,7 @@ fun GreetingPreview() {
  * @param divider Делитель
  * @return Результат деления, число с плавающей точкой
  * @exception ArithmeticException Вызывается при попытке деления на ноль
- * @author Гидрид Калия
+ * @author Motya
  * @since 0.1
  * @sample com.example.lab14.Sample.DivisionSample
  */
@@ -82,7 +82,7 @@ fun division(dividend:Int, divider: Int) : Double{
  * @property login Логин пользователя
  * @property password Пароль пользователя
  * @constructor Создание объекта с логином и паролем
- * @author Гидрид Калия
+ * @author Motya
  * @since 0.1
  * @sample com.example.lab14.Sample.UserLoginSample
  */
